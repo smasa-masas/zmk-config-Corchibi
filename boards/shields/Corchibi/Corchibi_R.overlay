@@ -9,6 +9,7 @@
 };
 
 &gpio0 {
+    status = "okay";
     sensor_cursor_id {
         gpio-hog;
         gpios = <4 GPIO_ACTIVE_HIGH>;
@@ -56,7 +57,22 @@
 };
 
 &trackball_listener_R {
-    status = "disabled";
+    status = "okay";
+    device = <&trackball_R>;
+    input-processors = <&zip_report_rate_limit 8>;
+};
+
+/ {
+    trackball_listener_R_scroll: trackball_listener_R_scroll {
+        compatible = "zmk,input-listener";
+        status = "okay";
+        device = <&trackball_R_scroll>;
+        input-processors =
+            <&zip_report_rate_limit 8>,
+            <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>,
+            <&zip_xy_to_scroll_mapper>,
+            <&zip_scroll_scaler 1 4>;
+    };
 };
 
 &i2c0 {
@@ -78,7 +94,6 @@
         res-y-cpi = <600>;
         zephyr,axis-x = <INPUT_REL_X>;
         zephyr,axis-y = <INPUT_REL_Y>;
-        input-processors = <&zip_report_rate_limit 8>;
     };
 
     trackball_R_scroll: trackball_R_scroll@75 {
@@ -90,11 +105,6 @@
         res-y-cpi = <600>;
         zephyr,axis-x = <INPUT_REL_X>;
         zephyr,axis-y = <INPUT_REL_Y>;
-        input-processors =
-            <&zip_report_rate_limit 8>,
-            <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>,
-            <&zip_xy_to_scroll_mapper>,
-            <&zip_scroll_scaler 1 4>;
     };
 };
 
