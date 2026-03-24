@@ -49,7 +49,7 @@
     status = "okay";
     device = <&trackball_R>;
     input-processors = 
-        <&zip_temp_layer 1 2000>,
+        <&zip_temp_layer 1 700>,
         <&zip_xy_scaler 1 1>;
 
     scroll_layer {
